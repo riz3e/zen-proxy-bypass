@@ -16,11 +16,25 @@ function proxyConfig() {
   return c;
 }
 
+// A host is direct if it is on the bypass list.
+function matchesBypass(host) {
+  return cfg.bypass.some((e) => matchesEntry(host, e));
+}
+
 // browser.proxy.onRequest listener: decides the fate of every request.
 function onRequest(details) {
   const host = hostOf(details.url);
-  if (host && (isAlwaysDirect(host) || cfg.bypass.some((e) => matchesEntry(host, e)))) {
+  if (host && (isAlwaysDirect(host) || matchesBypass(host))) {
     return [{ type: "direct" }];
+  }
+  // A subresource loaded into a document whose host is on the bypass list
+  // goes direct too. Navigations ("main_frame") are excluded: a link click
+  // from a bypassed page to another site must stay proxied.
+  if (details.type !== "main_frame") {
+    const docHost = hostOf(details.documentUrl);
+    if (docHost && matchesBypass(docHost)) {
+      return [{ type: "direct" }];
+    }
   }
   return [proxyConfig()];
 }

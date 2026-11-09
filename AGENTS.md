@@ -37,6 +37,12 @@ explicit user action. Any change to routing logic must preserve this.
 - **localhost/private ranges always direct, hardcoded** (`isAlwaysDirect` in
   `common.js`). Must not become configurable: proxying LAN traffic can cut
   the user off from their own proxy client.
+- **Subresources of a bypassed page follow the page.** If the request's
+  `documentUrl` host is on the bypass list, it goes direct too — except
+  `main_frame` (navigations from that page stay proxied). An entry means
+  "this page works direct": its third-party calls (APIs, CDNs) otherwise
+  break on sites that reject the proxy's exit IP. Resources loaded *inside*
+  a third-party iframe keep their own routing.
 
 ## Mechanics that are easy to break
 
