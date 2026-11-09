@@ -3,16 +3,29 @@ name: build
 on:
   push:
     branches: [main]
+    tags: ['v*']
   workflow_dispatch:
 
+# write: needed to create a GitHub release when a v* tag is pushed
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # A v* tag must match manifest.json — the tag names the release and
+      # the .xpi filename is derived from the manifest, so they can't drift.
+      - name: Verify tag matches manifest version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          V=$(jq -r .version manifest.json)
+          if [ "v$V" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match manifest.json version $V — bump the version or fix the tag"
+            exit 1
+          fi
 
       # icon.svg is the source of truth: PNGs are regenerated, never trusted.
       - name: Regenerate icons from icon.svg
@@ -42,3 +55,13 @@ jobs:
         with:
           name: proxy-exclude-xpi
           path: proxy-exclude-*.xpi
+
+      # Release only on tag pushes; regular commits to main stay artifact-only.
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "$OUT" \
+            --title "proxy-exclude $GITHUB_REF_NAME" \
+            --generate-notes
