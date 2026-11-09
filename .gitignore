@@ -1,0 +1,5 @@
+# Build artifact (CI builds it)
+*.xpi
+
+# Local tooling
+.zcode/
