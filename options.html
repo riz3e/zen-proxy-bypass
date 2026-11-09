@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Proxy Exclude — Settings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="options">
+  <main>
+    <h1>Proxy Exclude</h1>
+    <p class="muted">
+      All browser traffic goes through the proxy, except sites on the bypass list.
+      You can switch sites from the popup on the toolbar.
+    </p>
+
+    <section>
+      <h2>Proxy server</h2>
+      <div class="field">
+        <label for="type">Type</label>
+        <select id="type">
+          <option value="socks">SOCKS5</option>
+          <option value="socks4">SOCKS4</option>
+          <option value="http">HTTP</option>
+          <option value="https">HTTPS</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="host">Host</label>
+        <input id="host" type="text" placeholder="127.0.0.1" spellcheck="false">
+      </div>
+      <div class="field">
+        <label for="port">Port</label>
+        <input id="port" type="number" min="1" max="65535">
+      </div>
+      <div class="field checkbox">
+        <label class="switch">
+          <input type="checkbox" id="proxyDNS">
+          <span class="slider"></span>
+        </label>
+        <div>
+          <b>Resolve DNS through the proxy</b>
+          <div class="muted">Recommended for SOCKS5: site names never reach your ISP's DNS</div>
+        </div>
+      </div>
+      <p class="muted">
+        Leave the host empty if you want the extension to send nothing
+        through the proxy (all traffic direct).
+      </p>
+    </section>
+
+    <section>
+      <h2>Sites without proxy</h2>
+      <p class="muted">
+        One domain per line. <code>example.com</code> covers
+        <code>www.example.com</code> and <code>api.example.com</code> too.
+        localhost and private addresses (192.168.x.x, 10.x, etc.) always go direct.
+      </p>
+      <textarea id="bypass" rows="10" spellcheck="false" placeholder="example.com&#10;mybank.co.th"></textarea>
+    </section>
+
+    <div class="actions">
+      <button id="save" class="primary">Save</button>
+      <button id="reset" class="ghost">Reset</button>
+      <span id="status" class="status"></span>
+    </div>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

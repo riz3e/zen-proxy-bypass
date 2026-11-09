@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="popup">
+  <header>
+    <span class="dot" id="dot"></span>
+    <h1>Proxy Exclude</h1>
+    <a href="#" id="openOptions" title="Settings">⚙</a>
+  </header>
+
+  <div class="card">
+    <div class="site" id="siteHost">—</div>
+    <div class="state" id="siteState">Loading…</div>
+  </div>
+
+  <button id="toggleSite" class="primary" disabled>…</button>
+  <div class="hint" id="toggleHint"></div>
+
+  <div id="warning" class="warning hidden">
+    Proxy not configured — all traffic goes direct.
+    <a href="#" id="warnOptions">Open settings</a>
+  </div>
+
+  <div class="row">
+    <label class="switch">
+      <input type="checkbox" id="enabled">
+      <span class="slider"></span>
+    </label>
+    <div>
+      <div class="rowtitle">Extension active</div>
+      <div class="rowsub" id="proxyLine">…</div>
+    </div>
+  </div>
+
+  <footer>
+    <span id="count">In bypass: 0</span>
+    <a href="#" id="openOptions2">Site list →</a>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

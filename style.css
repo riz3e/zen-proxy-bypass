@@ -1,0 +1,161 @@
+:root {
+  --bg: #15171e;
+  --card: #1e2230;
+  --border: #2c3245;
+  --text: #e7eaf3;
+  --muted: #97a0b5;
+  --accent: #7aa2f7;
+  --green: #9ece6a;
+  --red: #e06c75;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.muted { color: var(--muted); }
+.hidden { display: none; }
+code {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+
+/* ---------- popup ---------- */
+
+body.popup { width: 340px; padding: 14px; }
+
+header { display: flex; align-items: center; gap: 8px; }
+header h1 { font-size: 14px; font-weight: 600; margin: 0; flex: 1; }
+header a { color: var(--muted); text-decoration: none; font-size: 16px; }
+header a:hover { color: var(--text); }
+
+.dot { width: 9px; height: 9px; border-radius: 50%; background: #6b7280; flex: none; }
+.dot.green { background: var(--green); }
+.dot.blue { background: var(--accent); }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 12px 0;
+}
+.site { font-size: 15px; font-weight: 600; word-break: break-all; }
+.state { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+
+button {
+  font: inherit;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #10131c;
+  font-weight: 600;
+  width: 100%;
+  padding: 10px;
+}
+button.primary:hover:not(:disabled) { filter: brightness(1.12); }
+button.primary:disabled { opacity: 0.45; cursor: default; }
+button.primary.danger { background: var(--red); border-color: var(--red); color: #1c1013; }
+button.ghost { background: transparent; }
+
+.hint { color: var(--muted); font-size: 12px; margin: 8px 2px 0; }
+
+.warning {
+  background: rgba(224, 108, 117, 0.12);
+  border: 1px solid rgba(224, 108, 117, 0.4);
+  color: var(--red);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 12px 0 0;
+  font-size: 12.5px;
+}
+.warning a { color: var(--red); font-weight: 600; }
+
+.row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.rowtitle { font-weight: 600; font-size: 13.5px; }
+.rowsub { color: var(--muted); font-size: 12px; }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+footer a { color: var(--accent); text-decoration: none; }
+
+/* ---------- toggle switch ---------- */
+
+.switch { position: relative; display: inline-block; width: 38px; height: 22px; flex: none; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #39415a;
+  border-radius: 22px;
+  transition: 0.2s;
+}
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  top: 3px;
+  background: #cbd3e6;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+input:checked + .slider { background: var(--accent); }
+input:checked + .slider:before { transform: translateX(16px); background: #fff; }
+
+/* ---------- options ---------- */
+
+body.options { padding: 32px 16px; }
+main { max-width: 620px; margin: 0 auto; }
+h1 { font-size: 20px; margin: 0 0 4px; }
+h2 { font-size: 15px; margin: 0 0 12px; }
+section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 16px 0;
+}
+.field { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.field > label { width: 180px; flex: none; color: var(--muted); }
+.field.checkbox { align-items: flex-start; }
+.field.checkbox > div { padding-top: 1px; }
+
+input[type="text"], input[type="number"], select, textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  width: 100%;
+}
+textarea { resize: vertical; font-family: ui-monospace, "JetBrains Mono", monospace; }
+
+.actions { display: flex; gap: 10px; align-items: center; }
+.actions .primary { width: auto; }
+.status { color: var(--green); font-size: 13px; }
+.status.err { color: var(--red); }

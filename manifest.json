@@ -1,0 +1,34 @@
+{
+  "manifest_version": 2,
+  "name": "Proxy Exclude — sites without proxy",
+  "version": "1.0.1",
+  "description": "All traffic goes through the proxy (socks5/http), except selected sites. One click and the site goes direct.",
+  "icons": {
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": ["proxy", "storage", "tabs"],
+  "background": {
+    "scripts": ["common.js", "background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Proxy Exclude",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "proxy-exclude@local",
+      "strict_min_version": "95.0"
+    }
+  }
+}
