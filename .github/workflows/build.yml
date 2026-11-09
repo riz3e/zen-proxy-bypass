@@ -1,0 +1,44 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # icon.svg is the source of truth: PNGs are regenerated, never trusted.
+      - name: Regenerate icons from icon.svg
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q librsvg2-bin
+          for s in 48 96 128; do
+            rsvg-convert -w $s -h $s icons/icon.svg -o icons/icon-$s.png
+          done
+
+      # Plain zip with explicit arcnames — inner paths must be preserved
+      # (see AGENTS.md). Version lives only in manifest.json; the filename
+      # follows it automatically, so it can never drift.
+      - name: Pack .xpi
+        run: |
+          V=$(jq -r .version manifest.json)
+          OUT="proxy-exclude-$V.xpi"
+          zip -X "$OUT" \
+            manifest.json common.js background.js \
+            popup.html popup.js \
+            options.html options.js \
+            style.css \
+            icons/icon-48.png icons/icon-96.png icons/icon-128.png
+          echo "OUT=$OUT" >> "$GITHUB_ENV"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: proxy-exclude-xpi
+          path: proxy-exclude-*.xpi
